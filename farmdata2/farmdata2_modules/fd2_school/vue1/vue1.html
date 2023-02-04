@@ -20,9 +20,7 @@
     </select>
     <label for="areaDropDown">Area:</label>
     <select id="areaDropDown">
-        <option selected>All</option>
-        <option>Chuau-1</option>
-        <option>SQ7</option>
+        <option v-for="area in areaList">{{ area }}</option>
     </select>
     <br><br>
     <input type="button" value="Generate Report"></button>
@@ -54,6 +52,7 @@
         endDate: "2020-05-15",
         crop: "Kale",
         cropList: [ "Broccoli", "Kale", "Peas" ],
+        areaList: [ "All", "Chuau-1", "SQ7" ],
 
       },
     });
