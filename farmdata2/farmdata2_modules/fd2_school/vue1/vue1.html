@@ -39,8 +39,13 @@
     <br>
     <table border="1">
         <tr><th>Date</th><th>Area</th><th>Crop</th><th>Yield</th><th>Units</th></tr>
-        <tr><td>05/02/2018</td><td>Chuau-1</td><td>Kale</td><td>10</td><td>Bunches</td></tr>
-        <tr><td>05/05/2018</td><td>SQ7</td><td>Kale</td><td>7</td><td>Bunches</td></tr>
+        <tr v-for="harvest in harvestList">
+            <td>{{ harvest.date }}</td>
+            <td>{{ harvest.area }}</td>
+            <td>{{ harvest.crop }}</td>
+            <td>{{ harvest.yield }}</td>
+            <td>{{ harvest.units }}</td>
+        </tr>
     </table>
 </div>
 <script>
@@ -53,7 +58,10 @@
         crop: "Kale",
         cropList: [ "Broccoli", "Kale", "Peas" ],
         areaList: [ "All", "Chuau-1", "SQ7" ],
-
+        harvestList: [
+            {date: "2018-05-02", area: "Chuau-1", crop: "Kale", yield: 10, units: "Bunches"},
+            {date: "2018-05-05", area: "SQ7", crop: "Kale", yield: 7, units: "Bunches"}
+        ],
       },
     });
     Vue.config.devtools = true;
