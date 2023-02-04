@@ -60,7 +60,15 @@ function fd2_school_menu() {
     'weight' => -100,
   );
 
-  // Add items blocks for new sub-tabs here.
+  // Add the HTML sub-tab.
+    $items['farm/fd2-school/HTML'] = array(
+        'title' => 'html',
+        'type' => MENU_LOCAL_TASK,
+        'page callback' => 'fd2_school_view',
+        'page arguments' => array('html'),
+        'access arguments' => array('view fd2 school'),
+        'weight' => 110,
+    );
 
   return $items;
 };
