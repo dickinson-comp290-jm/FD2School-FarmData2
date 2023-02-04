@@ -7,15 +7,15 @@
     <br><br>
     <label for="startDate">Start:</label>
     <input type="date" id="startDate"
-        value="2020-05-05"
+        v-model="startDate"
         min="2014-01-01" max="2022-01-01"></input>
     <label for="endDate">End:</label>
     <input type="date" id="endDate"
-        value="2020-05-15"
+        v-model="endDate"
         min="2020-05-05" max="2022-01-01"></input>
     <br><br>
     <label for="cropList">Crop:</label>
-    <select id="cropList">
+    <select id="cropList" v-model="crop">
         <option>Broccoli</option>
         <option selected>Kale</option>
         <option>Peas</option>
@@ -36,9 +36,9 @@
         <li><strong>User:</strong> manager1</li>
         <li><strong>Language:</strong> English</li>
         <br>
-        <li><strong>Start:</strong> 05/01/2018</li>
-        <li><strong>End:</strong> 05/15/2018</li>
-        <li><strong>Crop:</strong> Kale</li>
+        <li><strong>Start:</strong> {{ startDate }}</li>
+        <li><strong>End:</strong> {{ endDate }}</li>
+        <li><strong>Crop:</strong> {{ crop }}</li>
     </ul>
     <br>
     <table border="1">
@@ -52,6 +52,9 @@
       el: "#mockHarvestReport",
       data: {
         reportTitle: "My Sample Report",
+        startDate: "2020-05-05",
+        endDate: "2020-05-15",
+        crop: "Kale",
       },
     });
     Vue.config.devtools = true;
