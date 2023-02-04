@@ -14,14 +14,12 @@
         v-model="endDate"
         min="2020-05-05" max="2022-01-01"></input>
     <br><br>
-    <label for="cropList">Crop:</label>
-    <select id="cropList" v-model="crop">
-        <option>Broccoli</option>
-        <option selected>Kale</option>
-        <option>Peas</option>
+    <label for="cropDropDown">Crop:</label>
+    <select id="cropDropDown" v-model="crop">
+        <option v-for="crop in cropList">{{ crop }}</option>
     </select>
-    <label for="areaList">Area:</label>
-    <select id="cropList">
+    <label for="areaDropDown">Area:</label>
+    <select id="areaDropDown">
         <option selected>All</option>
         <option>Chuau-1</option>
         <option>SQ7</option>
@@ -55,6 +53,8 @@
         startDate: "2020-05-05",
         endDate: "2020-05-15",
         crop: "Kale",
+        cropList: [ "Broccoli", "Kale", "Peas" ],
+
       },
     });
     Vue.config.devtools = true;
