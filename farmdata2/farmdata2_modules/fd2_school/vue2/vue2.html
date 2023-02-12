@@ -38,7 +38,16 @@
     </ul>
     <br>
     <table border="1">
-        <tr><th>Row</th><th>Date</th><th>Area</th><th>Crop</th><th>Yield</th><th>Units</th><th>Delete</th></tr>
+        <tr v-if="harvestList.length!=0">
+            <th>Row</th>
+            <th>Date</th>
+            <th>Area</th>
+            <th>Crop</th>
+            <th>Yield</th>
+            <th>Units</th>
+            <th>Delete</th>
+        </tr>
+        <tr v-else><th>No Harvest Logs to Display!</th></tr>
         <tr v-for="(harvest,index) in harvestList">
             <td>{{ index + 1 }}</td>
             <td>{{ harvest.date }}</td>
