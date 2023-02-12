@@ -23,7 +23,8 @@
         <option v-for="area in areaList">{{ area }}</option>
     </select>
     <br><br>
-    <input type="button" value="Generate Report"></input>
+    <input type="button" value="Generate Report" @click='harvestList.push(
+        {date: "2018-05-01", area: "Orion-3", crop: "Kale", yield: 12, units: "Bunches"})'></input>
     <hr>
     <h1>{{ reportTitle=="" ? "Mock Harvest Report" : reportTitle }}</h1>
     <p>Details:</p>
