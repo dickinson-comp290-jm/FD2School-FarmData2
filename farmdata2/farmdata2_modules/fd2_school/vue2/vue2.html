@@ -38,7 +38,7 @@
     </ul>
     <br>
     <table border="1">
-        <tr><th>Row</th><th>Date</th><th>Area</th><th>Crop</th><th>Yield</th><th>Units</th></tr>
+        <tr><th>Row</th><th>Date</th><th>Area</th><th>Crop</th><th>Yield</th><th>Units</th><th>Delete</th></tr>
         <tr v-for="(harvest,index) in harvestList">
             <td>{{ index + 1 }}</td>
             <td>{{ harvest.date }}</td>
@@ -46,6 +46,7 @@
             <td>{{ harvest.crop }}</td>
             <td>{{ harvest.yield }}</td>
             <td>{{ harvest.units }}</td>
+            <td><button type="button" @click="deleteHarvestLog(index)">Delete</button></td>
         </tr>
     </table>
 </div>
@@ -76,6 +77,9 @@
                         {date: "2018-05-03", area: "Alf-2", crop: "Kale", yield: 12, units: "Bunches"})
                 }
             },
+            deleteHarvestLog: function(row) {
+                this.harvestList.splice(row,1)
+            }
         },
     });
     Vue.config.devtools = true;
