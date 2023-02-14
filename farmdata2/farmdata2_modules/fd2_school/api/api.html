@@ -22,7 +22,7 @@
     </select>
     <label for="areaDropDown">Area:</label>
     <select id="areaDropDown">
-        <option v-for="area in areaList">{{ area }}</option>
+        <option v-for="area in areaNames">{{ area }}</option>
     </select>
     <br><br>
     <input type="button" value="Generate Report" @click='generateReport'></input>
@@ -70,19 +70,22 @@
             reportTitle: "My Sample Report",
             startDate: "2020-05-05",
             endDate: "2020-05-15",
-            crop: "Kale",
-            areaList: [ "All", "Chuau-1", "SQ7" ],
+            crop: "KALE",
             harvestList: [],
             reportVisible: false,
             farmName: "",
             currentUser: "",
             language: "",
             idToCropMap: new Map(),
+            idToAreaMap: new Map(),
         },
         computed: {
             cropNames: function() {
                 return Array.from(this.idToCropMap.values());
-            }
+            },
+            areaNames: function() {
+                return Array.from(this.idToAreaMap.values());
+            },
         },
         methods: {
             generateReport: function() {
@@ -127,7 +130,15 @@
                 this.idToCropMap = theMap
             })
             .catch((err) => {
-                console.log("Error requesting ")
+                console.log("Error requesting the id to Crop Map")
+            })
+
+            getIDToAreaMap()
+            .then((theMap) => {
+                this.idToAreaMap = theMap
+            })
+            .catch((err) => {
+                console.log("Error requesting the id to Area Map")
             })
         }
     });
