@@ -18,7 +18,7 @@
     <br><br>
     <label for="cropDropDown">Crop:</label>
     <select id="cropDropDown" v-model="crop">
-        <option v-for="crop in cropList">{{ crop }}</option>
+        <option v-for="crop in cropNames">{{ crop }}</option>
     </select>
     <label for="areaDropDown">Area:</label>
     <select id="areaDropDown">
@@ -71,21 +71,27 @@
             startDate: "2020-05-05",
             endDate: "2020-05-15",
             crop: "Kale",
-            cropList: [ "Broccoli", "Kale", "Peas" ],
             areaList: [ "All", "Chuau-1", "SQ7" ],
             harvestList: [],
             reportVisible: false,
             farmName: "",
             currentUser: "",
             language: "",
+            idToCropMap: new Map(),
+        },
+        computed: {
+            cropNames: function() {
+                return Array.from(this.idToCropMap.values());
+            }
         },
         methods: {
             generateReport: function() {
                 // Request the farm information from the server.
                 axios.get('/farm.json') 
                 .then((response) => {
-                    console.log("Got Response")
-                    console.log(response)
+                    this.farmName = response.data.name
+                    this.currentUser = response.data.user.name
+                    this. language = response.data.languages.en.name
                 })
                 .catch((error) => {
                     console.log("Error Occurred")
@@ -94,9 +100,7 @@
 
                 if (!this.reportVisible) {
                     this.reportVisible = true;
-                    this.farmName = "Sample Farm"
-                    this.currentUser = "manager1"
-                    this. language = "English"
+
                 }
                 else {
                     if (this.harvestList.length == 0) {
@@ -117,6 +121,15 @@
                 this.harvestList.splice(row,1)
             },
         },
+        created() {
+            getIDToCropMap()
+            .then((theMap) => {
+                this.idToCropMap = theMap
+            })
+            .catch((err) => {
+                console.log("Error requesting ")
+            })
+        }
     });
     Vue.config.devtools = true;
 </script>
