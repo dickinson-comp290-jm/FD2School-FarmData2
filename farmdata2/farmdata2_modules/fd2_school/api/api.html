@@ -83,6 +83,9 @@
             addHarvestLog: function() {
                 if (!this.reportVisible) {
                     this.reportVisible = true;
+                    this.farmName = "Sample Farm"
+                    this.currentUser = "manager1"
+                    this. language = "English"
                 }
                 else {
                     if (this.harvestList.length == 0) {
@@ -101,7 +104,7 @@
             },
             deleteHarvestLog: function(row) {
                 this.harvestList.splice(row,1)
-            }
+            },
         },
     });
     Vue.config.devtools = true;
