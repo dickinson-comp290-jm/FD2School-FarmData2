@@ -25,7 +25,7 @@
         <option v-for="area in areaList">{{ area }}</option>
     </select>
     <br><br>
-    <input type="button" value="Generate Report" @click='addHarvestLog'></input>
+    <input type="button" value="Generate Report" @click='generateReport'></input>
     <hr>
     <div v-if="reportVisible">
         <h1>{{ reportTitle=="" ? "Mock Harvest Report" : reportTitle }}</h1>
@@ -80,7 +80,18 @@
             language: "",
         },
         methods: {
-            addHarvestLog: function() {
+            generateReport: function() {
+                // Request the farm information from the server.
+                axios.get('/farm.json') 
+                .then((response) => {
+                    console.log("Got Response")
+                    console.log(response)
+                })
+                .catch((error) => {
+                    console.log("Error Occurred")
+                    console.log(error)
+                })
+
                 if (!this.reportVisible) {
                     this.reportVisible = true;
                     this.farmName = "Sample Farm"
