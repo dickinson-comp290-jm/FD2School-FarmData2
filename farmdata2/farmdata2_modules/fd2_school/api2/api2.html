@@ -78,6 +78,7 @@
             language: "",
             idToCropMap: new Map(),
             idToAreaMap: new Map(),
+            harvestLogs: []
         },
         computed: {
             cropNames: function() {
@@ -100,6 +101,22 @@
                     console.log("Error Occurred")
                     console.log(error)
                 })
+
+                let start = dayjs(this.startDate).unix();
+                console.log(start);
+                let end = dayjs(this.endDate).unix();
+                console.log(end);
+                let request = 
+                    "/log.json?type=farm_harvest&timestamp[ge]=" + start + 
+                    "&timestamp[le]=" + end
+                console.log(request)
+
+                getAllPages(request, this.harvestLogs)
+                .catch((err) => {
+                    console.log("Error requesting harvest logs");
+                    console.log(err);
+                })
+
 
                 if (!this.reportVisible) {
                     this.reportVisible = true;
