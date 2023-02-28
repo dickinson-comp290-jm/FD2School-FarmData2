@@ -90,16 +90,20 @@
             harvestReportRows() {
                 let tableRows = []
                 for(let log of this.harvestLogs) {
-                    let date = dayjs.unix(log.timestamp);
-                    let dateStr = date.format("MM/DD/YYYY");
-                    let tableRow = {
-                        date: dateStr,
-                        area: log.area[0].name,
-                        crop: this.idToCropMap.get(log.data.crop_tid),
-                        yield: log.quantity[0].value,
-                        units: log.quantity[0].unit.name,
+                    let cropName = this.idToCropMap.get(log.data.crop_tid);
+
+                    if (cropName === this.crop) {
+                        let date = dayjs.unix(log.timestamp);
+                        let dateStr = date.format("MM/DD/YYYY");
+                        let tableRow = {
+                            date: dateStr,
+                            area: log.area[0].name,
+                            crop: cropName,
+                            yield: log.quantity[0].value,
+                            units: log.quantity[0].unit.name,
+                        }
+                        tableRows.push(tableRow)
                     }
-                    tableRows.push(tableRow)
                 }
                 return tableRows
             },
@@ -132,7 +136,6 @@
                     console.log("Error requesting harvest logs");
                     console.log(err);
                 })
-
 
                 if (!this.reportVisible) {
                     this.reportVisible = true;
