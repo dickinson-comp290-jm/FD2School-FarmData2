@@ -17,7 +17,7 @@
         max="2022-01-01"></input>
     <br><br>
     <label for="cropDropDown">Crop:</label>
-    <select id="cropDropDown" v-model="crop">
+    <select id="cropDropDown" data-cy="crop-dropdown" v-model="crop">
         <option v-for="crop in cropNames">{{ crop }}</option>
     </select>
     <label for="areaDropDown">Area:</label>
