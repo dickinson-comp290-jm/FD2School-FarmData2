@@ -6,12 +6,12 @@
     <input type="text" id="rptTitle" v-model="reportTitle"></input>
     <br><br>
     <label for="startDate">Start:</label>
-    <input type="date" id="startDate"
+    <input type="date" data-cy="start-date" id="startDate"
         v-model="startDate"
         min="2014-01-01" 
         :max="endDate"></input>
     <label for="endDate">End:</label>
-    <input type="date" id="endDate"
+    <input type="date" data-cy="end-date" id="endDate"
         v-model="endDate"
         :min="startDate" 
         max="2022-01-01"></input>
