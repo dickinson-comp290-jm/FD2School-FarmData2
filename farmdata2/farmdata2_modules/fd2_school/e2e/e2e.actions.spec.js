@@ -14,4 +14,15 @@ describe("Test actions on the harvest report", () => {
         
     })
 
+
+    it("Check that clicking on Generate Report button correctly displays farm data", () => {
+
+        // click button
+        cy.get("[data-cy=generate-report-btn]").click()
+        cy.get("[data-cy=farm-name]").should("have.text", "Farm: Sample Farm")
+        cy.get("[data-cy=farm-user]").should("contain.text", "manager1")
+        cy.get("[data-cy=farm-language]").should("have.text", "English")
+        
+    })
+
 })
