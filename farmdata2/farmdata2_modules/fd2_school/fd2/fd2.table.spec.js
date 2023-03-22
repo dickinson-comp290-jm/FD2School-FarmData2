@@ -62,4 +62,10 @@ describe("Test the generation of the harvest report", () => {
 
 
     })
+
+    it("Check that number of columns is correct", () => {
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=table-headers]").children().should("have.length", 6)
+
+    })
 })
