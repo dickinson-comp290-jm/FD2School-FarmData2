@@ -17,11 +17,16 @@ describe("Test the harvest report default values", () => {
     })
 
     it("Check the crops in the crop drop down", () => {
-        let list = cy.get("[data-cy=crop-dropdown]").children()
+        // let list = cy.get("[data-cy=crop-dropdown]").children()
 
         cy.get("[data-cy=crop-dropdown] > [data-cy=dropdown-input] > [data-cy=option0]")
             .should("have.text", "All")
-            cy.get("[data-cy=crop-dropdown] > [data-cy=dropdown-input] > [data-cy=option1]")
+
+        // jmac note: works without the " > " too...
+        cy.get("[data-cy=option0]")
+            .should("have.text", "All")
+
+        cy.get("[data-cy=crop-dropdown] > [data-cy=dropdown-input] > [data-cy=option1]")
             .should("have.text", "ARUGULA")
         cy.get("[data-cy=crop-dropdown] > [data-cy=dropdown-input] > [data-cy=option5]")
             .should("have.text", "BEAN-FAVA")

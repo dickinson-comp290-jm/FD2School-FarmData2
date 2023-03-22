@@ -16,4 +16,50 @@ describe("Test the generation of the harvest report", () => {
         cy.get("[data-cy=username]").should("contain.text", "manager1")
         cy.get("[data-cy=language]").should("have.text", "English")
     })
+
+    it("Check that table headers are correct", () => {
+        cy.get("[data-cy=harvest-table]").should("not.exist")
+        cy.get("[data-cy=generate-report-button]").click()
+        cy.get("[data-cy=harvest-table]").should("be.visible")
+        //cy.get("[data-cy=h0]").should("exist")
+        cy.get("[data-cy=h0]").should("have.text", "Row")
+        cy.get("[data-cy=h1]").should("have.text", "Date")
+        cy.get("[data-cy=h2]").should("have.text", "Area")
+        cy.get("[data-cy=h3]").should("have.text", "Crop")
+        cy.get("[data-cy=h4]").should("have.text", "Yield")
+        cy.get("[data-cy=h5]").should("have.text", "Units")
+
+
+
+        ////////////////////////////////////////////////////////////////
+        // experiments with nesting
+        ////////////////////////////////////////////////////////////////
+
+        cy.get("[data-cy=harvest-table]").should("exist")
+        cy.get("[data-cy=table]").should("exist")
+        cy.get("[data-cy=table-headers]").should("exist")
+
+        // fails
+        // cy.get("[data-cy=table] > [data-cy=table-headers]").should("exist")
+
+
+        
+        cy.get("[data-cy=h0]").should("exist")
+        cy.get("[data-cy=table-headers] > [data-cy=h0]").should("exist")
+        cy.get("[data-cy=harvest-table] > [class=sticky-table] > [data-cy=table]").should("exist")
+        cy.get("[data-cy=harvest-table] > [class=sticky-table] > [data-cy=table] > thead").should("exist")
+        cy.get("[data-cy=harvest-table] > [class=sticky-table] > [data-cy=table] > thead > [data-cy=table-headers] > [data-cy=h0]").should("exist")
+        
+
+
+        // fails
+        //cy.get("[data-cy=harvest-table] > [data-cy=h0]").should("exist")
+        //cy.get("[data-cy=harvest-table] > [data-cy=h0]").should("have.text","Row")
+
+        ////////////////////////////////////////////////////////////////
+        // end experiments with nesting
+        ////////////////////////////////////////////////////////////////
+
+
+    })
 })
