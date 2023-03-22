@@ -68,4 +68,23 @@ describe("Test the generation of the harvest report", () => {
         cy.get("[data-cy=table-headers]").children().should("have.length", 6)
 
     })
+
+    it("Check that filtering by a single crop works correctly", () => {
+        cy.get("[data-cy=crop-dropdown] > [data-cy=dropdown-input]")
+            .select("ARUGULA")
+        cy.get("[data-cy=generate-report-button]").click()
+
+        // should be 4 rows of ARUGULA
+        cy.get("[data-cy=table-body]").children().should("have.length", 4)
+
+
+        // check first row
+        let row0 = cy.get("[data-cy=table-body]").children().eq(0);
+        row0.children().should("have.length", 6)
+        row0.children().eq(3).should("have.text","ARUGULA")
+    })
+
+
+
+
 })
