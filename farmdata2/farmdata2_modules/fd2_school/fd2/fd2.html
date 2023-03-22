@@ -6,20 +6,20 @@
     <input type="text" id="rptTitle" v-model="reportTitle"></input>
     <br><br>
     <label for="startDate">Start:</label>
-    <input type="date" data-cy="start-date" id="startDate"
-        v-model="startDate"
-        min="2014-01-01" 
-        :max="endDate"></input>
+    <input type="date" data-cy="start-date" id="startDate" v-model="startDate" min="2014-01-01" :max="endDate"></input>
     <label for="endDate">End:</label>
-    <input type="date" data-cy="end-date" id="endDate"
-        v-model="endDate"
-        :min="startDate" 
-        max="2022-01-01"></input>
+    <input type="date" data-cy="end-date" id="endDate" v-model="endDate" :min="startDate" max="2022-01-01"></input>
     <br><br>
-    <label for="cropDropDown">Crop:</label>
-    <select id="cropDropDown" data-cy="crop-dropdown" v-model="crop">
+    <!-- <label for="cropDropDown">Crop:</label> -->
+    <!-- <select id="cropDropDown" data-cy="crop-dropdown" v-model="crop">
         <option v-for="crop in cropNames">{{ crop }}</option>
-    </select>
+    </select> -->
+
+    <crop-dropdown-compt id="cropDropDown" data-cy="crop-dropdown" includes-all :selected-val="crop"
+        :dropdown-list="cropNames" :disabled="cropDropdownDisabled"
+        @selection-changed="cropChange">Crop:</crop-dropdown-compt>
+
+
     <label for="areaDropDown">Area:</label>
     <select id="areaDropDown">
         <option v-for="area in areaNames">{{ area }}</option>
@@ -50,7 +50,9 @@
                 <th>Units</th>
                 <th>Delete</th>
             </tr>
-            <tr v-else><th>No Harvest Logs to Display!</th></tr>
+            <tr v-else>
+                <th>No Harvest Logs to Display!</th>
+            </tr>
             <tr v-for="(harvest,index) in harvestReportRows">
                 <td>{{ index + 1 }}</td>
                 <td>{{ harvest.date }}</td>
@@ -64,13 +66,17 @@
     </div>
 </div>
 <script>
-    let spike = new Vue ({
+    let spike = new Vue({
         el: "#mockHarvestReport",
+        components: {
+            // Register the components used and define the tag name to be used.
+            'crop-dropdown-compt': DropdownWithAllComponent,
+        },
         data: {
             reportTitle: "My Sample Report",
             startDate: "2020-05-05",
             endDate: "2020-05-15",
-            crop: "KALE",
+            crop: "All",
             harvestList: [],
             reportVisible: false,
             farmName: "",
@@ -79,17 +85,19 @@
             idToCropMap: new Map(),
             idToAreaMap: new Map(),
             harvestLogs: [],
+            cropDropdownDisabled: false,
+
         },
         computed: {
-            cropNames: function() {
+            cropNames: function () {
                 return Array.from(this.idToCropMap.values());
             },
-            areaNames: function() {
+            areaNames: function () {
                 return Array.from(this.idToAreaMap.values());
             },
             harvestReportRows() {
                 let tableRows = []
-                for(let log of this.harvestLogs) {
+                for (let log of this.harvestLogs) {
                     let cropName = this.idToCropMap.get(log.data.crop_tid);
 
                     if (cropName === this.crop) {
@@ -109,58 +117,61 @@
             },
         },
         methods: {
-            generateReport: function() {
+            generateReport: function () {
                 // Request the farm information from the server.
-                axios.get('/farm.json') 
-                .then((response) => {
-                    this.farmName = response.data.name
-                    this.currentUser = response.data.user.name
-                    this. language = response.data.languages.en.name
-                })
-                .catch((error) => {
-                    console.log("Error Occurred")
-                    console.log(error)
-                })
+                axios.get('/farm.json')
+                    .then((response) => {
+                        this.farmName = response.data.name
+                        this.currentUser = response.data.user.name
+                        this.language = response.data.languages.en.name
+                    })
+                    .catch((error) => {
+                        console.log("Error Occurred")
+                        console.log(error)
+                    })
 
                 let start = dayjs(this.startDate).unix();
                 console.log(start);
                 let end = dayjs(this.endDate).unix();
                 console.log(end);
-                let request = 
-                    "/log.json?type=farm_harvest&timestamp[ge]=" + start + 
+                let request =
+                    "/log.json?type=farm_harvest&timestamp[ge]=" + start +
                     "&timestamp[le]=" + end
                 console.log(request)
 
                 getAllPages(request, this.harvestLogs)
-                .catch((err) => {
-                    console.log("Error requesting harvest logs");
-                    console.log(err);
-                })
+                    .catch((err) => {
+                        console.log("Error requesting harvest logs");
+                        console.log(err);
+                    })
 
                 if (!this.reportVisible) {
                     this.reportVisible = true;
                 }
             },
-            deleteHarvestLog: function(row) {
-                this.harvestList.splice(row,1)
+            deleteHarvestLog: function (row) {
+                this.harvestList.splice(row, 1)
+            },
+            cropChange(newCrop) {
+                this.crop = newCrop
             },
         },
         created() {
             getIDToCropMap()
-            .then((theMap) => {
-                this.idToCropMap = theMap
-            })
-            .catch((err) => {
-                console.log("Error requesting the id to Crop Map")
-            })
+                .then((theMap) => {
+                    this.idToCropMap = theMap
+                })
+                .catch((err) => {
+                    console.log("Error requesting the id to Crop Map")
+                })
 
             getIDToAreaMap()
-            .then((theMap) => {
-                this.idToAreaMap = theMap
-            })
-            .catch((err) => {
-                console.log("Error requesting the id to Area Map")
-            })
+                .then((theMap) => {
+                    this.idToAreaMap = theMap
+                })
+                .catch((err) => {
+                    console.log("Error requesting the id to Area Map")
+                })
         }
     });
     Vue.config.devtools = true;
