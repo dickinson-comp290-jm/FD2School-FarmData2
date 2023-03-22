@@ -3,7 +3,7 @@ describe("Test the generation of the harvest report", () => {
         cy.login("manager1", "farmdata2")
         cy.visit("/farm/fd2-school/fd2")
     })
-      
+
     it("Check that button generates the report", () => {
         cy.get("[data-cy=report-header]").should("not.exist")
         cy.get("[data-cy=generate-report-button]").click()
@@ -43,13 +43,13 @@ describe("Test the generation of the harvest report", () => {
         // cy.get("[data-cy=table] > [data-cy=table-headers]").should("exist")
 
 
-        
+
         cy.get("[data-cy=h0]").should("exist")
         cy.get("[data-cy=table-headers] > [data-cy=h0]").should("exist")
         cy.get("[data-cy=harvest-table] > [class=sticky-table] > [data-cy=table]").should("exist")
         cy.get("[data-cy=harvest-table] > [class=sticky-table] > [data-cy=table] > thead").should("exist")
         cy.get("[data-cy=harvest-table] > [class=sticky-table] > [data-cy=table] > thead > [data-cy=table-headers] > [data-cy=h0]").should("exist")
-        
+
 
 
         // fails
@@ -78,10 +78,12 @@ describe("Test the generation of the harvest report", () => {
         cy.get("[data-cy=table-body]").children().should("have.length", 4)
 
 
-        // check first row
-        let row0 = cy.get("[data-cy=table-body]").children().eq(0);
-        row0.children().should("have.length", 6)
-        row0.children().eq(3).should("have.text","ARUGULA")
+        // check crop in each row
+        for (let rowNum = 0; rowNum < 4; rowNum++) {
+            let theRow = cy.get("[data-cy=table-body]").children().eq(rowNum);
+            theRow.children().should("have.length", 6)
+            theRow.children().eq(3).should("have.text", "ARUGULA")
+        }
     })
 
 
