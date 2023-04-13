@@ -6,7 +6,7 @@ describe('Test for FieldKit Sub-Tabs', () => {
   })
 
   //issue #200, sub-task 1
-  it('verify that FieldKit tab contains sub-tabs for "Info" and "Seeding Input"', () =>{
+  it('Verify that FieldKit tab contains sub-tabs for "Info" and "Seeding Input"', () =>{
     cy.get('.pagination-sm').contains('Info').should('exist')
     cy.get('.pagination-sm').contains('Seeding Input').should('exist')
   })
