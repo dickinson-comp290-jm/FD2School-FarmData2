@@ -1,3 +1,15 @@
+/**
+ * This file contains Cypress tests for the FieldKit tabbed interface on the fd2_farmdata2 website.
+ * The tests check the following:
+ *
+ * - The FieldKit tab contains sub-tabs for "Info" and "Seeding Input."
+ * - The order of the tabs is "Info" and then "Seeding Input."
+ * - There are the correct number of sub-tabs (2 at this time).
+ *
+ * These tests are intended to ensure that the FieldKit tabbed interface is implemented correctly
+ * and that it meets the requirements specified by the design.
+ */
+
 describe('Test for FieldKit Sub-Tabs', () => {
 
   beforeEach(() => {
@@ -24,7 +36,6 @@ describe('Test for FieldKit Sub-Tabs', () => {
   it('checks the correct number of sub-tabs', () => {
     cy.get('ul.pagination-sm')
       .find('li')
-      .filter(':contains("Info"), :contains("Seeding Input")')
       .should('have.length', 2)
   })
 
